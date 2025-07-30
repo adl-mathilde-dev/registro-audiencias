@@ -1,0 +1,420 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Estilos migrados del frontend original - Responsive */
+.mth-audiencias-container {
+  @apply max-w-7xl mx-auto p-4 bg-white min-h-screen;
+  
+  /* Layout para desktop - lado a lado */
+  @apply lg:grid lg:grid-cols-2 lg:gap-8 lg:p-6;
+  
+  /* Evitar overflow horizontal */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Mobile: Stack vertical */
+@media (max-width: 1023px) {
+  .mth-audiencias-container {
+    @apply flex flex-col space-y-6;
+  }
+}
+
+.mth-form {
+  @apply bg-gray-50 p-6 rounded-lg shadow-md;
+  @apply w-full max-w-none;
+  
+  /* Mobile ajustes */
+  @apply sm:p-8;
+}
+
+.mth-form h1 {
+  @apply text-xl font-bold text-gray-800 mb-4 text-center;
+  @apply sm:text-2xl sm:mb-6;
+}
+
+.mth-textarea-nombre {
+  @apply mb-4 sm:mb-6;
+}
+
+.mth-textarea-nombre label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.mth-textarea-nombre textarea {
+  @apply w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none;
+  @apply text-sm sm:text-base;
+}
+
+.mth-select-cliente {
+  @apply mb-4 sm:mb-6;
+}
+
+.mth-select-cliente label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.mth-select-cliente select {
+  @apply w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  @apply text-sm sm:text-base;
+}
+
+.mth-input-ambiente {
+  @apply mb-4 bg-white p-4 rounded-md border border-gray-200;
+  @apply sm:mb-6;
+}
+
+.mth-input-ambiente p {
+  @apply text-sm font-medium text-gray-700 mb-4;
+}
+
+.mth-input-ambiente label {
+  @apply inline-block text-sm font-medium text-gray-600 mr-2 min-w-[50px];
+  @apply sm:min-w-[60px];
+}
+
+.mth-input-ambiente input[type="checkbox"] {
+  @apply mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded;
+}
+
+.mth-input-ambiente .flex {
+  @apply mb-2 last:mb-0;
+}
+
+.mth-textarea-adicionales {
+  @apply mb-4 sm:mb-6;
+}
+
+.mth-textarea-adicionales label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.mth-textarea-adicionales textarea {
+  @apply w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none;
+  @apply text-sm sm:text-base;
+}
+
+.mth-button {
+  @apply w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-colors;
+  @apply text-sm sm:text-base;
+}
+
+.mth-table-container {
+  @apply w-full;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.mth-table-container .overflow-x-auto {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.mth-table-container h2 {
+  @apply text-lg font-bold text-gray-800 mb-4;
+  @apply sm:text-xl;
+}
+
+/* Tabla responsive sin scroll - se ajusta al contenedor */
+.mth-table {
+  @apply w-full border-collapse bg-white shadow-sm rounded-lg overflow-hidden;
+  @apply text-xs sm:text-sm;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 100%;
+}
+
+.mth-table th {
+  @apply bg-gray-50 px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200;
+  @apply sm:px-2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mth-table td {
+  @apply px-1 py-2 text-xs text-gray-900 border-b border-gray-200;
+  @apply sm:px-2 sm:text-sm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 0; /* Permite que el truncate funcione correctamente */
+}
+
+.mth-table td div.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* Anchos específicos para columnas - sin scroll */
+.mth-table th:nth-child(1), .mth-table td:nth-child(1) { width: 15%; } /* ID */
+.mth-table th:nth-child(2), .mth-table td:nth-child(2) { width: 40%; } /* Nombre */
+.mth-table th:nth-child(3), .mth-table td:nth-child(3) { width: 20%; } /* Cliente */
+.mth-table th:nth-child(4), .mth-table td:nth-child(4) { width: 15%; } /* Fecha */
+.mth-table th:nth-child(5), .mth-table td:nth-child(5) { width: 10%; } /* Detalles */
+
+.mth-table tr:hover {
+  @apply bg-gray-50;
+}
+
+.expand-button {
+  @apply bg-blue-100 text-blue-600 px-1 py-1 rounded-md text-xs hover:bg-blue-200 transition-colors;
+  white-space: nowrap;
+  max-width: none;
+  font-size: 10px;
+  min-width: 0;
+}
+
+.expanded-content {
+  @apply bg-gray-50 p-3 text-xs text-gray-700;
+  @apply sm:p-4 sm:text-sm;
+  white-space: normal;
+}
+
+/* Toggle switches mejorados */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.5rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+}
+
+.toggle-switch-on {
+  background-color: #2563eb;
+}
+
+.toggle-switch-off {
+  background-color: #e5e7eb;
+}
+
+.toggle-switch:hover {
+  transform: scale(1.05);
+}
+
+.toggle-switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: white;
+  border-radius: 50%;
+  height: 1.25rem;
+  width: 1.25rem;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: block;
+}
+
+.toggle-switch-on .toggle-switch-slider {
+  transform: translateX(1.5rem);
+}
+
+/* Toggle switches pequeños para tabla */
+.toggle-switch-small {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 1.25rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
+}
+
+.toggle-switch-small.toggle-switch-on {
+  background-color: #2563eb;
+}
+
+.toggle-switch-small.toggle-switch-off {
+  background-color: #e5e7eb;
+}
+
+.toggle-switch-small:hover {
+  transform: scale(1.05);
+}
+
+.toggle-switch-slider-small {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  background-color: white;
+  border-radius: 50%;
+  height: 1rem;
+  width: 1rem;
+  transition: transform 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: block;
+}
+
+.toggle-switch-small.toggle-switch-on .toggle-switch-slider-small {
+  transform: translateX(1.25rem);
+}
+
+/* Mejoras para pantallas muy pequeñas */
+@media (max-width: 640px) {
+  .mth-table th:nth-child(4), .mth-table td:nth-child(4) { display: none; } /* Ocultar fecha */
+  .mth-table th:nth-child(3), .mth-table td:nth-child(3) { display: none; } /* Ocultar cliente */
+  
+  /* Redistribuir anchos en mobile - sin scroll */
+  .mth-table th:nth-child(1), .mth-table td:nth-child(1) { width: 20%; }
+  .mth-table th:nth-child(2), .mth-table td:nth-child(2) { width: 60%; }
+  .mth-table th:nth-child(5), .mth-table td:nth-child(5) { width: 20%; }
+}
+
+@media (max-width: 375px) {
+  .mth-form {
+    @apply p-4;
+  }
+  
+  .mth-table th,
+  .mth-table td {
+    @apply px-1 py-1 text-xs;
+  }
+  
+  .mth-input-ambiente {
+    @apply p-3;
+  }
+}
+
+/* Estilos responsive para paginación */
+@media (max-width: 640px) {
+  /* En móviles, hacer la paginación más compacta */
+  .mt-4.flex.items-center.justify-between {
+    @apply flex-col space-y-3;
+  }
+  
+  .flex.items-center.space-x-2 {
+    @apply flex-wrap justify-center;
+  }
+  
+  .flex.items-center.space-x-1 {
+    @apply max-w-full overflow-x-auto;
+  }
+}
+
+/* ========================================= */
+/* ESTILOS PARA INPUTS - COMPATIBILIDAD NAVEGADORES */
+/* ========================================= */
+
+/* Estilos generales para inputs para evitar texto invisible */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  /* Forzar colores específicos */
+  color: #111827 !important;
+  background-color: white !important;
+  
+  /* Webkit/Chrome autocomplete fix */
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  
+  /* Firefox autocomplete fix */
+  filter: none !important;
+}
+
+/* Estados específicos para inputs */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  color: #111827 !important;
+  background-color: white !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+/* Placeholders visibles */
+input::placeholder,
+textarea::placeholder {
+  color: #6B7280 !important;
+  opacity: 1 !important;
+}
+
+/* Autocomplete específico */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  color: #111827 !important;
+  background-color: white !important;
+}
+
+/* Firefox autocomplete */
+input:-moz-autofill,
+input:-moz-autofill-preview {
+  color: #111827 !important;
+  background-color: white !important;
+  filter: none !important;
+}
+
+/* Compatibilidad con dark mode - override */
+@media (prefers-color-scheme: dark) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    color: #111827 !important;
+    background-color: white !important;
+    -webkit-text-fill-color: #111827 !important;
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  }
+} 

@@ -1,0 +1,17 @@
+# Variables de entorno para desarrollo local
+# Copia este archivo como .env.local y completa tus valores
+
+# Configuración de base de datos - Opción 1: Individual (GoDaddy o local)
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=root!
+DB_NAME=audiencias
+DB_PORT=3306
+
+# Configuración de base de datos - Opción 2: URL completa (PlanetScale, Railway, etc.)
+# DATABASE_URL=mysql://usuario:password@host:3306/database_name
+
+# Notas:
+# - Si usas DATABASE_URL, las variables DB_* serán ignoradas
+# - Para desarrollo local, usa las variables DB_* individuales
+# - Para producción en Vercel, configura DATABASE_URL 
