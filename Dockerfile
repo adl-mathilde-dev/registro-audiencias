@@ -10,9 +10,9 @@ RUN npm run build:docker
 FROM node:18-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=3001
 # Agregar variables de entorno para evitar errores durante el build
 ENV NEXT_PHASE=phase-production-build
 COPY --from=builder /app ./
-EXPOSE 3000
+EXPOSE 3001
 CMD ["npm", "run", "start"]

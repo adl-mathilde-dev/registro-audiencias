@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
+    "dev:3000": "next dev",
     "build": "NEXT_PHASE=phase-production-build next build",
     "build:docker": "NEXT_PHASE=phase-production-build NODE_ENV=production next build",
-    "start": "next start",
+    "start": "next start -p 3001",
+    "start:3000": "next start",
     "lint": "next lint"
   },
   "dependencies": {
