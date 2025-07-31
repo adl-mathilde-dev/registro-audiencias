@@ -1,0 +1,23 @@
+# Variables de entorno para PRODUCCIÓN
+# Copia este archivo como .env en el servidor y completa los valores
+
+# Configuración del servidor
+NODE_ENV=production
+PORT=3001
+HOSTNAME=0.0.0.0
+
+# Configuración de base de datos - PRODUCCIÓN
+DB_HOST=31.97.103.77
+DB_USER=gato_azul_admin
+DB_PASSWORD=TU_PASSWORD_AQUI
+DB_NAME=audiencias_mathilde_db
+DB_PORT=3308
+
+# Configuración de Next.js
+NEXT_PHASE=
+
+# Notas importantes:
+# 1. Reemplaza TU_PASSWORD_AQUI con la contraseña real de la base de datos
+# 2. Asegúrate de que el puerto 3308 esté abierto en el firewall
+# 3. Verifica que el usuario tenga permisos para conectar desde la IP del servidor
+# 4. Para Docker, usa: DB_PASSWORD=${DB_PASSWORD} en docker-compose.yml 

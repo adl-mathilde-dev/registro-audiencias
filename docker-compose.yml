@@ -6,6 +6,15 @@ services:
       - "3001:3001"
     environment:
       NODE_ENV: production
+      # Variables de base de datos
+      DB_HOST: 31.97.103.77
+      DB_USER: gato_azul_admin
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: audiencias_mathilde_db
+      DB_PORT: 3308
+      # Puerto del servidor
+      PORT: 3001
+      HOSTNAME: 0.0.0.0
     restart: unless-stopped
     networks:
       - dokploy-network

@@ -112,6 +112,69 @@ npm run start
 npm run start:next
 ```
 
+## Hosting y Deployment
+
+### Variables de Entorno Requeridas
+
+Para que la aplicación funcione en producción, necesitas configurar estas variables de entorno:
+
+```bash
+# Configuración del servidor
+NODE_ENV=production
+PORT=3001
+HOSTNAME=0.0.0.0
+
+# Configuración de base de datos
+DB_HOST=31.97.103.77
+DB_USER=gato_azul_admin
+DB_PASSWORD=TU_PASSWORD_AQUI
+DB_NAME=audiencias_mathilde_db
+DB_PORT=3308
+```
+
+### Troubleshooting
+
+Si obtienes el error "Servicio de autenticación no disponible":
+
+1. **Verificar variables de entorno:**
+```bash
+# En el servidor, ejecuta:
+./scripts/check-env.sh
+```
+
+2. **Verificar logs del container:**
+```bash
+docker logs registro-audiencias
+```
+
+3. **Verificar conectividad a la base de datos:**
+```bash
+# Desde el servidor, prueba:
+mysql -h 31.97.103.77 -P 3308 -u gato_azul_admin -p audiencias_mathilde_db
+```
+
+4. **Verificar firewall:**
+```bash
+# Asegúrate de que el puerto 3308 esté abierto
+telnet 31.97.103.77 3308
+```
+
+### Configuración en Docker Compose
+
+Para usar variables de entorno en Docker Compose:
+
+```yaml
+services:
+  web:
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+```
+
+Y crear un archivo `.env` en el servidor con:
+```bash
+DB_PASSWORD=tu_password_real_aqui
+```
+
 ## Problemas Conocidos
 
 Si tienes problemas con la instalación de dependencias, consulta `INSTALL_INSTRUCTIONS.md`. 

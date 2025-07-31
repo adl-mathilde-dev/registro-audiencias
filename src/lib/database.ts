@@ -28,18 +28,6 @@ const createPool = () => {
     port: parseInt(process.env.DB_PORT || '3306'),
   };
 
-  // Validar configuración crítica
-  if (!dbConfig.password && process.env.NODE_ENV === 'production') {
-    console.error('❌ ERROR CRÍTICO: DB_PASSWORD no está configurada en producción');
-    console.error('📋 Variables de entorno requeridas:');
-    console.error('   - DB_HOST');
-    console.error('   - DB_USER');
-    console.error('   - DB_PASSWORD');
-    console.error('   - DB_NAME');
-    console.error('   - DB_PORT');
-    throw new Error('Configuración de base de datos incompleta en producción');
-  }
-
   // Log detallado para debugging (sin mostrar password)
   console.log('🔗 Configuración de base de datos:');
   console.log(`   Host: ${dbConfig.host}`);
@@ -50,6 +38,25 @@ const createPool = () => {
   console.log(`   Entorno: ${process.env.NODE_ENV || 'development'}`);
   console.log(`   Fase: ${process.env.NEXT_PHASE || 'no especificada'}`);
   
+  // Validar configuración crítica
+  if (!dbConfig.password && process.env.NODE_ENV === 'production') {
+    console.error('❌ ERROR CRÍTICO: DB_PASSWORD no está configurada en producción');
+    console.error('📋 Variables de entorno requeridas:');
+    console.error('   - DB_HOST');
+    console.error('   - DB_USER');
+    console.error('   - DB_PASSWORD');
+    console.error('   - DB_NAME');
+    console.error('   - DB_PORT');
+    console.error('🔍 Variables de entorno disponibles:');
+    console.error('   - NODE_ENV:', process.env.NODE_ENV);
+    console.error('   - DB_HOST:', process.env.DB_HOST);
+    console.error('   - DB_USER:', process.env.DB_USER);
+    console.error('   - DB_NAME:', process.env.DB_NAME);
+    console.error('   - DB_PORT:', process.env.DB_PORT);
+    console.error('   - DB_PASSWORD:', process.env.DB_PASSWORD ? 'CONFIGURADA' : 'NO CONFIGURADA');
+    throw new Error('Configuración de base de datos incompleta en producción');
+  }
+
   // Verificar si estamos usando valores por defecto en producción
   if (process.env.NODE_ENV === 'production') {
     const usingDefaults = [
@@ -65,12 +72,20 @@ const createPool = () => {
     }
   }
 
-  return mysql.createPool({
-    ...dbConfig,
-    waitForConnections: true,
-    connectionLimit: 5,
-    queueLimit: 0,
-  });
+  try {
+    const pool = mysql.createPool({
+      ...dbConfig,
+      waitForConnections: true,
+      connectionLimit: 5,
+      queueLimit: 0,
+    });
+    
+    console.log('✅ Pool de conexiones creado exitosamente');
+    return pool;
+  } catch (error) {
+    console.error('❌ Error al crear pool de conexiones:', error);
+    throw error;
+  }
 };
 
 let pool: mysql.Pool | null;
@@ -96,6 +111,8 @@ try {
           console.error('   - En el servidor, ejecuta: printenv | grep DB_');
         }
       });
+  } else {
+    console.log('⚠️  Pool de conexiones es null - verificar configuración');
   }
 } catch (error) {
   console.error('❌ Error crítico al inicializar pool de conexiones:', error);
