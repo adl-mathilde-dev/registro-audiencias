@@ -21,6 +21,11 @@ interface LogEntry {
 
 export const logService = {
   async insertLog(logData: LogEntry): Promise<void> {
+    if (!pool) {
+      console.warn('⚠️ Servicio de logs no disponible durante el build');
+      return;
+    }
+
     try {
       const fechaCambio = getBogotaDateForMySQL();
       
@@ -194,6 +199,11 @@ export const logService = {
   
   // Función de utilidad para verificar logs
   async getRecentLogs(limit: number = 10): Promise<any[]> {
+    if (!pool) {
+      console.warn('⚠️ Servicio de logs no disponible durante el build');
+      return [];
+    }
+
     try {
       const [rows] = await pool.execute(
         'SELECT * FROM log_data_audiencias ORDER BY fecha_cambio DESC LIMIT ?',

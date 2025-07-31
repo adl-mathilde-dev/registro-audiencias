@@ -5,6 +5,14 @@ import { Usuario, LoginRequest, RegisterRequest, AuthResponse } from '../types/a
 export const authService = {
   // Registrar nuevo usuario
   async register(data: RegisterRequest): Promise<AuthResponse> {
+    // Verificar si el pool está disponible
+    if (!pool) {
+      return {
+        success: false,
+        message: 'Servicio de autenticación no disponible'
+      };
+    }
+
     const { nombre, email, password } = data;
     
     // Validar dominio de email
@@ -65,6 +73,14 @@ export const authService = {
 
   // Iniciar sesión
   async login(data: LoginRequest): Promise<AuthResponse> {
+    // Verificar si el pool está disponible
+    if (!pool) {
+      return {
+        success: false,
+        message: 'Servicio de autenticación no disponible'
+      };
+    }
+
     const { email, password } = data;
 
     try {
@@ -114,6 +130,11 @@ export const authService = {
 
   // Obtener usuario por ID
   async getUserById(id: number): Promise<Usuario | null> {
+    // Verificar si el pool está disponible
+    if (!pool) {
+      return null;
+    }
+
     try {
       const [userRows] = await pool.execute(
         'SELECT id, nombre, email, fecha_registro, activo FROM usuarios WHERE id = ? AND activo = true',

@@ -4,12 +4,15 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+# Usar el script de build específico para Docker
+RUN npm run build:docker
 # Etapa 2: producción
 FROM node:18-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
+# Agregar variables de entorno para evitar errores durante el build
+ENV NEXT_PHASE=phase-production-build
 COPY --from=builder /app ./
 EXPOSE 3000
 CMD ["npm", "run", "start"]

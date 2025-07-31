@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NEXT_PHASE=phase-production-build next build",
+    "build:docker": "NEXT_PHASE=phase-production-build NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint"
   },

@@ -2,6 +2,12 @@ import mysql from 'mysql2/promise';
 
 // Configuración flexible para desarrollo y producción
 const createPool = () => {
+  // Si estamos en build time, no intentar conectar
+  if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'phase-production-build') {
+    console.log('🏗️  Build time detectado, omitiendo conexión a base de datos');
+    return null;
+  }
+
   // Si existe DATABASE_URL (producción en la nube), la usamos
   if (process.env.DATABASE_URL) {
     console.log('🌐 Conectando a base de datos usando DATABASE_URL...');
@@ -66,30 +72,33 @@ const createPool = () => {
   });
 };
 
-let pool: mysql.Pool;
+let pool: mysql.Pool | null;
 
 try {
   pool = createPool();
   
-  // Validar conexión al inicializar
-  pool.execute('SELECT 1 as test')
-    .then(() => {
-      console.log('✅ Conexión a base de datos establecida correctamente');
-    })
-    .catch((error) => {
-      console.error('❌ Error al conectar con la base de datos:', error.message);
-      console.error('🔍 Código de error:', error.code);
-      console.error('🔍 SQL State:', error.sqlState);
-      
-      if (error.code === 'ER_ACCESS_DENIED_ERROR' || error.code === 'ER_ACCESS_DENIED_NO_PASSWORD_ERROR') {
-        console.error('🚨 ERROR DE AUTENTICACIÓN:');
-        console.error('   - Verifica que las variables DB_USER y DB_PASSWORD estén correctas');
-        console.error('   - En el servidor, ejecuta: printenv | grep DB_');
-      }
-    });
+  // Solo validar conexión si el pool existe
+  if (pool) {
+    // Validar conexión al inicializar
+    pool.execute('SELECT 1 as test')
+      .then(() => {
+        console.log('✅ Conexión a base de datos establecida correctamente');
+      })
+      .catch((error) => {
+        console.error('❌ Error al conectar con la base de datos:', error.message);
+        console.error('🔍 Código de error:', error.code);
+        console.error('🔍 SQL State:', error.sqlState);
+        
+        if (error.code === 'ER_ACCESS_DENIED_ERROR' || error.code === 'ER_ACCESS_DENIED_NO_PASSWORD_ERROR') {
+          console.error('🚨 ERROR DE AUTENTICACIÓN:');
+          console.error('   - Verifica que las variables DB_USER y DB_PASSWORD estén correctas');
+          console.error('   - En el servidor, ejecuta: printenv | grep DB_');
+        }
+      });
+  }
 } catch (error) {
   console.error('❌ Error crítico al inicializar pool de conexiones:', error);
-  throw error;
+  pool = null;
 }
 
 export default pool; 

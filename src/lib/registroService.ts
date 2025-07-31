@@ -6,17 +6,27 @@ import { getBogotaDateISO, getBogotaDateForMySQL } from './dateUtils';
 
 export const registroService = {
   async getAll(): Promise<Registro[]> {
+    if (!pool) {
+      throw new Error('Servicio de registros no disponible');
+    }
     const [rows] = await pool.execute('SELECT * FROM data_audiencias ORDER BY fecha DESC');
     return rows as Registro[];
   },
 
   async getById(id: number): Promise<Registro | null> {
+    if (!pool) {
+      throw new Error('Servicio de registros no disponible');
+    }
     const [rows] = await pool.execute('SELECT * FROM data_audiencias WHERE id_global = ?', [id]);
     const results = rows as Registro[];
     return results.length > 0 ? results[0] : null;
   },
 
   async insertRegistro(data: Omit<Registro, 'id_global' | 'id_unico' | 'fecha'>, usuario?: Usuario): Promise<CreateRegistroResponse> {
+    if (!pool) {
+      throw new Error('Servicio de registros no disponible');
+    }
+
     const { cliente, nombre, dev, qa, prod, detalles } = data;
     
     if (!cliente || !nombre) {
@@ -75,6 +85,10 @@ export const registroService = {
   },
 
   async updateRegistro(id: number, data: Partial<Registro>, usuario?: Usuario): Promise<void> {
+    if (!pool) {
+      throw new Error('Servicio de registros no disponible');
+    }
+
     console.log(`📝 Iniciando actualización del registro ${id}:`, data);
     console.log(`👤 Usuario que actualiza:`, usuario ? `${usuario.nombre} (${usuario.email})` : 'Sin usuario');
     
@@ -147,6 +161,10 @@ export const registroService = {
   },
 
   async deleteRegistro(id: number, usuario?: Usuario): Promise<void> {
+    if (!pool) {
+      throw new Error('Servicio de registros no disponible');
+    }
+
     console.log(`🗑️ Iniciando eliminación del registro ${id}`);
     console.log(`👤 Usuario que elimina:`, usuario ? `${usuario.nombre} (${usuario.email})` : 'Sin usuario');
     
