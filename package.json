@@ -8,7 +8,7 @@
     "build": "NEXT_PHASE=phase-production-build next build && npm run copy-static",
     "build:docker": "NEXT_PHASE=phase-production-build NODE_ENV=production next build && npm run copy-static",
     "copy-static": "cp -r .next/static .next/standalone/.next/",
-    "start": "HOST=0.0.0.0 PORT=3001 node .next/standalone/server.js",
+    "start": "HOSTNAME=0.0.0.0 PORT=3001 node .next/standalone/server.js",
     "start:next": "next start -p 3001",
     "start:3000": "next start",
     "lint": "next lint"
