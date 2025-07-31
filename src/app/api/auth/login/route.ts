@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authService } from '../../../../lib/authService';
 import { LoginRequest } from '../../../../types/auth';
 
+// Forzar que esta ruta sea dinámica
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body: LoginRequest = await request.json();

@@ -7,10 +7,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Para rutas API, asegurar que no se cacheen
+  // Para rutas API, asegurar que no se cacheen y sean dinámicas
   if (request.nextUrl.pathname.startsWith('/api/')) {
     const response = NextResponse.next();
     response.headers.set('Cache-Control', 'no-store, must-revalidate');
+    response.headers.set('X-Runtime', 'dynamic');
     return response;
   }
 
