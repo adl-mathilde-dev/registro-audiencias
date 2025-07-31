@@ -6,7 +6,7 @@ import RegistroForm from '../components/RegistroForm';
 import RegistroTable from '../components/RegistroTable';
 import { Registro } from '../types/registro';
 import { Usuario } from '../types/auth';
-import { getBogotaDateISO } from '../lib/dateUtils';
+import { getBogotaDateForUI } from '../lib/dateUtils';
 
 export default function HomePage() {
   const [registros, setRegistros] = useState<Registro[]>([]);
@@ -92,7 +92,7 @@ export default function HomePage() {
         id_global: result.id_global,
         id_unico: result.id_unico,
         ...data,
-        fecha: getBogotaDateISO()
+        fecha: getBogotaDateForUI()
       };
 
       // Agregar el nuevo registro al inicio de la lista
@@ -135,7 +135,7 @@ export default function HomePage() {
       // Actualizar el estado local
       setRegistros(prev => prev.map(reg => 
         reg.id_global === id 
-          ? { ...reg, [field]: nuevoEstado, fecha: getBogotaDateISO() }
+          ? { ...reg, [field]: nuevoEstado, fecha: getBogotaDateForUI() }
           : reg
       ));
       

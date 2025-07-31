@@ -15,4 +15,5 @@ ENV PORT=3001
 ENV NEXT_PHASE=phase-production-build
 COPY --from=builder /app ./
 EXPOSE 3001
-CMD ["npm", "run", "start"]
+# Usar el comando correcto para standalone
+CMD ["node", ".next/standalone/server.js"]

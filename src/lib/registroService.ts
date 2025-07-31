@@ -2,7 +2,7 @@ import pool from './database';
 import { Registro, CreateRegistroResponse } from '../types/registro';
 import { Usuario } from '../types/auth';
 import { logService } from './logService';
-import { getBogotaDateISO, getBogotaDateForMySQL } from './dateUtils';
+import { getBogotaDateForMySQL } from './dateUtils';
 
 export const registroService = {
   async getAll(): Promise<Registro[]> {
@@ -69,7 +69,7 @@ export const registroService = {
       id_unico: nuevoIdUnico.toString(),
       cliente,
       nombre,
-      fecha: getBogotaDateISO(),
+      fecha: getBogotaDateForMySQL(),
       dev,
       qa,
       prod,

@@ -2,8 +2,8 @@ import mysql from 'mysql2/promise';
 
 // Configuración flexible para desarrollo y producción
 const createPool = () => {
-  // Si estamos en build time, no intentar conectar
-  if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'phase-production-build') {
+  // Si estamos en build time específicamente, no intentar conectar
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
     console.log('🏗️  Build time detectado, omitiendo conexión a base de datos');
     return null;
   }
@@ -48,6 +48,7 @@ const createPool = () => {
   console.log(`   Puerto: ${dbConfig.port}`);
   console.log(`   Password configurado: ${dbConfig.password ? '✅ Sí' : '❌ No'}`);
   console.log(`   Entorno: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`   Fase: ${process.env.NEXT_PHASE || 'no especificada'}`);
   
   // Verificar si estamos usando valores por defecto en producción
   if (process.env.NODE_ENV === 'production') {

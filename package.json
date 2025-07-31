@@ -7,7 +7,8 @@
     "dev:3000": "next dev",
     "build": "NEXT_PHASE=phase-production-build next build",
     "build:docker": "NEXT_PHASE=phase-production-build NODE_ENV=production next build",
-    "start": "next start -p 3001",
+    "start": "node .next/standalone/server.js",
+    "start:next": "next start -p 3001",
     "start:3000": "next start",
     "lint": "next lint"
   },

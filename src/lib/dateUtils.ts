@@ -35,6 +35,22 @@ export function getBogotaDateISO(): string {
 }
 
 /**
+ * Obtiene la fecha actual en formato legible para la UI
+ * @returns {string} Fecha en formato legible (YYYY-MM-DD HH:mm:ss)
+ */
+export function getBogotaDateForUI(): string {
+  const bogotaDate = getBogotaDate();
+  
+  // Formato YYYY-MM-DD HH:mm:ss para la UI
+  return bogotaDate.getFullYear() + '-' +
+    String(bogotaDate.getMonth() + 1).padStart(2, '0') + '-' +
+    String(bogotaDate.getDate()).padStart(2, '0') + ' ' +
+    String(bogotaDate.getHours()).padStart(2, '0') + ':' +
+    String(bogotaDate.getMinutes()).padStart(2, '0') + ':' +
+    String(bogotaDate.getSeconds()).padStart(2, '0');
+}
+
+/**
  * Formatea una fecha para mostrar en la UI (formato colombiano)
  * @param {string | Date} fecha - Fecha a formatear
  * @returns {string} Fecha formateada (DD/MM/YY HH:mm AM/PM)

@@ -40,16 +40,36 @@ mysql -u root -p < database_schema_fixed.sql
 npm run dev
 ```
 
-La aplicación estará disponible en: http://localhost:3000
+La aplicación estará disponible en: http://localhost:3001
 
 ## Scripts
 
 ```bash
-npm run dev    # Desarrollo
-npm run build  # Construcción
-npm run start  # Producción
-npm run lint   # Linting
+npm run dev        # Desarrollo (puerto 3001)
+npm run dev:3000   # Desarrollo (puerto 3000)
+npm run build      # Construcción
+npm run start      # Producción (standalone)
+npm run start:next # Producción (next start)
+npm run start:3000 # Producción (puerto 3000)
+npm run lint       # Linting
 ```
+
+## Docker
+
+Para ejecutar con Docker:
+
+```bash
+# Construir y ejecutar
+docker-compose up --build
+
+# Solo ejecutar
+docker-compose up
+
+# Ejecutar en segundo plano
+docker-compose up -d
+```
+
+La aplicación estará disponible en: http://localhost:3001
 
 ## Estructura
 
@@ -68,6 +88,29 @@ Configuración por defecto:
 - Usuario: root
 - Password: root!
 - Base de datos: audiencias
+
+## Puertos
+
+- **Desarrollo**: Puerto 3001 (configurado por defecto)
+- **Producción**: Puerto 3001
+- **Docker**: Puerto 3001
+
+Si necesitas usar el puerto 3000, puedes usar los comandos `npm run dev:3000` o `npm run start:3000`.
+
+## Producción
+
+Para ejecutar en producción:
+
+```bash
+# Construir la aplicación
+npm run build
+
+# Ejecutar en modo standalone (recomendado)
+npm run start
+
+# O usar next start (alternativo)
+npm run start:next
+```
 
 ## Problemas Conocidos
 
