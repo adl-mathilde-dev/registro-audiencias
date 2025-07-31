@@ -29,24 +29,31 @@ export default function HomePage() {
 
   const checkAuthentication = async () => {
     try {
+      console.log('🔍 Verificando autenticación...');
       // Verificar si hay una sesión válida mediante una cookie
       const response = await fetch('/api/auth/verify', {
         method: 'GET',
         credentials: 'include'
       });
 
+      console.log('📋 Respuesta de verificación:', response.status, response.statusText);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('📊 Datos de verificación:', data);
         if (data.success && data.usuario) {
+          console.log('✅ Usuario autenticado:', data.usuario);
           setUsuario(data.usuario);
         } else {
+          console.log('❌ Verificación fallida, redirigiendo a login');
           router.push('/login');
         }
       } else {
+        console.log('❌ Error en verificación:', response.status, response.statusText);
         router.push('/login');
       }
     } catch (error) {
-      console.error('Error verificando autenticación:', error);
+      console.error('❌ Error verificando autenticación:', error);
       router.push('/login');
     } finally {
       setIsLoading(false);
