@@ -38,6 +38,16 @@ const nextConfig = {
   // Configuración para el build
   output: 'standalone',
   
+  // Configuración para copiar archivos estáticos al standalone
+  async rewrites() {
+    return [
+      {
+        source: '/_next/static/:path*',
+        destination: '/_next/static/:path*',
+      },
+    ];
+  },
+  
   // Configuración para evitar que las rutas API se ejecuten durante el build
   async headers() {
     return [
@@ -49,16 +59,6 @@ const nextConfig = {
             value: 'no-store, must-revalidate',
           },
         ],
-      },
-    ];
-  },
-  
-  // Configuración para manejar rutas dinámicas
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
       },
     ];
   },

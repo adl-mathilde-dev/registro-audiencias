@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { registroService } from '../../../../lib/registroService';
-import { UpdateRegistroRequest } from '../../../../types/registro';
 import { getUserFromRequest } from '../../../../lib/authUtils';
 
 // Forzar que esta ruta sea dinámica
@@ -38,7 +37,7 @@ export async function PUT(
 ) {
   try {
     // Verificar autenticación
-    const usuario = await getUserFromRequest(request);
+    const usuario = getUserFromRequest(request);
     if (!usuario) {
       return NextResponse.json(
         { error: 'No autorizado' },
@@ -67,7 +66,7 @@ export async function DELETE(
 ) {
   try {
     // Verificar autenticación
-    const usuario = await getUserFromRequest(request);
+    const usuario = getUserFromRequest(request);
     if (!usuario) {
       return NextResponse.json(
         { error: 'No autorizado' },

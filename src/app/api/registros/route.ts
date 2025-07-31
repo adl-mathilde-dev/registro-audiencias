@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { registroService } from '../../../lib/registroService';
-import { authUtils } from '../../../lib/authUtils';
+import { getUserFromRequest } from '../../../lib/authUtils';
 
 // Forzar que esta ruta sea dinámica
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Verificar autenticación
-    const usuario = await authUtils.getUserFromRequest(request);
+    const usuario = getUserFromRequest(request);
     if (!usuario) {
       return NextResponse.json(
         { error: 'No autorizado' },

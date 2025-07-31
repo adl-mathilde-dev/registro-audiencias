@@ -6,6 +6,8 @@ RUN npm install
 COPY . .
 # Usar el script de build específico para Docker
 RUN npm run build:docker
+# Copiar archivos estáticos al standalone
+RUN cp -r .next/static .next/standalone/.next/
 # Etapa 2: producción
 FROM node:18-alpine AS runner
 WORKDIR /app
