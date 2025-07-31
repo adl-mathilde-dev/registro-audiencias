@@ -37,6 +37,7 @@ const createPool = () => {
   console.log(`   Password configurado: ${dbConfig.password ? '✅ Sí' : '❌ No'}`);
   console.log(`   Entorno: ${process.env.NODE_ENV || 'development'}`);
   console.log(`   Fase: ${process.env.NEXT_PHASE || 'no especificada'}`);
+  console.log(`   Proceso: ${process.env.NODE_ENV === 'production' ? 'PRODUCCIÓN' : 'DESARROLLO'}`);
   
   // Validar configuración crítica
   if (!dbConfig.password && process.env.NODE_ENV === 'production') {
@@ -54,7 +55,11 @@ const createPool = () => {
     console.error('   - DB_NAME:', process.env.DB_NAME);
     console.error('   - DB_PORT:', process.env.DB_PORT);
     console.error('   - DB_PASSWORD:', process.env.DB_PASSWORD ? 'CONFIGURADA' : 'NO CONFIGURADA');
-    throw new Error('Configuración de base de datos incompleta en producción');
+    console.error('🔍 Todas las variables de entorno:');
+    Object.keys(process.env).filter(key => key.startsWith('DB_')).forEach(key => {
+      console.error(`   ${key}: ${key.includes('PASSWORD') ? 'CONFIGURADA' : process.env[key]}`);
+    });
+    return null; // En lugar de throw, retornar null para manejo más suave
   }
 
   // Verificar si estamos usando valores por defecto en producción
@@ -84,7 +89,7 @@ const createPool = () => {
     return pool;
   } catch (error) {
     console.error('❌ Error al crear pool de conexiones:', error);
-    throw error;
+    return null; // En lugar de throw, retornar null para manejo más suave
   }
 };
 
@@ -110,9 +115,15 @@ try {
           console.error('   - Verifica que las variables DB_USER y DB_PASSWORD estén correctas');
           console.error('   - En el servidor, ejecuta: printenv | grep DB_');
         }
+        
+        // No hacer pool = null aquí, mantener el pool para reintentos
       });
   } else {
     console.log('⚠️  Pool de conexiones es null - verificar configuración');
+    console.log('🔍 Posibles causas:');
+    console.log('   - Variables de entorno no configuradas');
+    console.log('   - NEXT_PHASE configurado incorrectamente');
+    console.log('   - Error en la configuración de la base de datos');
   }
 } catch (error) {
   console.error('❌ Error crítico al inicializar pool de conexiones:', error);

@@ -1,5 +1,5 @@
 # Etapa 1: build
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -12,11 +12,10 @@ RUN npm run build:docker
 RUN cp -r .next/static .next/standalone/.next/
 
 # Etapa 2: producción
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3001
-ENV NEXT_PHASE=phase-production-build
 
 COPY --from=builder /app ./
 
