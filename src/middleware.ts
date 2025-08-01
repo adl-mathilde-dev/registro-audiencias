@@ -9,6 +9,9 @@ export function middleware(request: NextRequest) {
 
   // Para rutas API, asegurar que no se cacheen y sean dinámicas
   if (request.nextUrl.pathname.startsWith('/api/')) {
+    console.log('🔧 Middleware procesando API:', request.nextUrl.pathname);
+    console.log('🍪 Cookies en middleware:', request.cookies.getAll());
+    
     const response = NextResponse.next();
     response.headers.set('Cache-Control', 'no-store, must-revalidate');
     response.headers.set('X-Runtime', 'dynamic');
