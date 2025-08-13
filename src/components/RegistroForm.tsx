@@ -13,7 +13,7 @@ const CLIENTES = [
   'Banco Popular',
   'Banco de Occidente',
   'Dale!',
-  'Tu➕',
+  'Tu Plus',
   'CarroYa',
   'El Tiempo'
 ];
